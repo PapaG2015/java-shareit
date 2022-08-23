@@ -2,11 +2,8 @@ package ru.practicum.shareit.item.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NonNull;
-import ru.practicum.shareit.item.model.Item;
 
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotEmpty;
 
 @AllArgsConstructor
 @Data
