@@ -48,7 +48,7 @@ public class ItemDB {
         return itemDB.values().stream().filter(item ->
                 (item.getName().toLowerCase().contains(textTLC) ||
                         item.getDescription().toLowerCase().contains(textTLC))
-                        && item.getAvailable() == true).
-                collect(Collectors.toList());
+                        && item.getAvailable() == true)
+                .collect(Collectors.toList());
     }
 }
