@@ -1,5 +1,6 @@
 package ru.practicum.shareit.item;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -11,6 +12,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/items")
+@Slf4j
 public class ItemController {
 
     @Autowired
@@ -46,12 +48,14 @@ public class ItemController {
     @ExceptionHandler
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public String handleIdException(IdException e) {
+        log.error(e.getMessage());
         return e.getMessage();
     }
 
     @ExceptionHandler
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public String handleNullPointerException(NullPointerException e) {
+        log.error("missing property \"available\"");
         return e.getMessage();
     }
 }
