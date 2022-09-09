@@ -9,7 +9,6 @@ import ru.practicum.shareit.exception.IdException;
 import ru.practicum.shareit.item.dto.CommentDto;
 import ru.practicum.shareit.item.dto.ItemDto;
 import ru.practicum.shareit.item.dto.ItemOwnerDto;
-import ru.practicum.shareit.item.model.Comment;
 
 import javax.validation.Valid;
 import java.util.List;

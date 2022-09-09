@@ -5,7 +5,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import ru.practicum.shareit.booking.dto.BookingDtoRequest;
 import ru.practicum.shareit.booking.dto.BookingDtoResponse;
-import ru.practicum.shareit.booking.model.Booking;
 import ru.practicum.shareit.exception.BookingException;
 import ru.practicum.shareit.exception.IdException;
 import ru.practicum.shareit.exception.StatusErrorException;
@@ -30,7 +29,7 @@ public class BookingController {
         return bookingService.changeBooking(userId, bookingId, approved);
     }
 
-    @GetMapping(value = { "/{bookingId}", "/" } )
+    @GetMapping(value = {"/{bookingId}", "/"})
     public BookingDtoResponse getBooking(@RequestHeader("X-Sharer-User-Id") int userId,
                                          @PathVariable(required = false) Integer bookingId) {
         return bookingService.getBooking(userId, bookingId);
