@@ -87,30 +87,30 @@ public class BookingService {
 
     public List<BookingDtoResponse> getAllBooking(int userId, String state) {
         if (state.equals("ALL")) {
-            return bookingRepository.findByBookerIdOrderByIdDesc(userId).stream().
-                    map(booking -> BookingMapper.toBookingDtoResponse(booking, itemService, userService)).collect(Collectors.toList());
+            return bookingRepository.findByBookerIdOrderByIdDesc(userId).stream()
+                    .map(booking -> BookingMapper.toBookingDtoResponse(booking, itemService, userService)).collect(Collectors.toList());
         }
         if (state.equals("FUTURE")) {
-            return bookingRepository.findByBookerIdAndStartIsAfterOrderByIdDesc(userId, LocalDateTime.now()).stream().
-                    map(booking -> BookingMapper.toBookingDtoResponse(booking, itemService, userService)).collect(Collectors.toList());
+            return bookingRepository.findByBookerIdAndStartIsAfterOrderByIdDesc(userId, LocalDateTime.now()).stream()
+                    .map(booking -> BookingMapper.toBookingDtoResponse(booking, itemService, userService)).collect(Collectors.toList());
         }
         if (state.equals("WAITING")) {
-            return bookingRepository.findByBookerIdAndStatusOrderByIdDesc(userId, Status.WAITING).stream().
-                    map(booking -> BookingMapper.toBookingDtoResponse(booking, itemService, userService)).collect(Collectors.toList());
+            return bookingRepository.findByBookerIdAndStatusOrderByIdDesc(userId, Status.WAITING).stream()
+                    .map(booking -> BookingMapper.toBookingDtoResponse(booking, itemService, userService)).collect(Collectors.toList());
         }
         if (state.equals("REJECTED")) {
-            return bookingRepository.findByBookerIdAndStatusOrderByIdDesc(userId, Status.REJECTED).stream().
-                    map(booking -> BookingMapper.toBookingDtoResponse(booking, itemService, userService)).collect(Collectors.toList());
+            return bookingRepository.findByBookerIdAndStatusOrderByIdDesc(userId, Status.REJECTED).stream()
+                    .map(booking -> BookingMapper.toBookingDtoResponse(booking, itemService, userService)).collect(Collectors.toList());
         }
         if (state.equals("CURRENT")) {
             LocalDateTime date = LocalDateTime.now();
-            return bookingRepository.findByBookerIdAndStartBeforeAndEndingAfterOrderByIdDesc(userId, date, date).stream().
-                    map(booking -> BookingMapper.toBookingDtoResponse(booking, itemService, userService)).collect(Collectors.toList());
+            return bookingRepository.findByBookerIdAndStartBeforeAndEndingAfterOrderByIdDesc(userId, date, date).stream()
+                    .map(booking -> BookingMapper.toBookingDtoResponse(booking, itemService, userService)).collect(Collectors.toList());
         }
         if (state.equals("PAST")) {
             LocalDateTime date = LocalDateTime.now();
-            return bookingRepository.findByBookerIdAndEndingBeforeOrderByIdDesc(userId, date).stream().
-                    map(booking -> BookingMapper.toBookingDtoResponse(booking, itemService, userService)).collect(Collectors.toList());
+            return bookingRepository.findByBookerIdAndEndingBeforeOrderByIdDesc(userId, date).stream()
+                    .map(booking -> BookingMapper.toBookingDtoResponse(booking, itemService, userService)).collect(Collectors.toList());
         }
 
         throw new StatusErrorException("Unknown state: UNSUPPORTED_STATUS");
@@ -120,38 +120,38 @@ public class BookingService {
         userService.getUser(userId);
 
         if (state.equals("ALL")) {
-            return bookingRepository.findByOrderByIdDesc().stream().
-                    filter(booking -> itemService.getItem(userId, booking.getItemId()).getOwner() == userId).
-                    map(booking -> BookingMapper.toBookingDtoResponse(booking, itemService, userService)).collect(Collectors.toList());
+            return bookingRepository.findByOrderByIdDesc().stream()
+                    .filter(booking -> itemService.getItem(userId, booking.getItemId()).getOwner() == userId)
+                    .map(booking -> BookingMapper.toBookingDtoResponse(booking, itemService, userService)).collect(Collectors.toList());
         }
         if (state.equals("FUTURE")) {
-            return bookingRepository.findByAndStartIsAfterOrderByIdDesc(LocalDateTime.now()).stream().
-                    filter(booking -> itemService.getItem(userId, booking.getItemId()).getOwner() == userId).
-                    map(booking -> BookingMapper.toBookingDtoResponse(booking, itemService, userService)).collect(Collectors.toList());
+            return bookingRepository.findByAndStartIsAfterOrderByIdDesc(LocalDateTime.now()).stream()
+                    .filter(booking -> itemService.getItem(userId, booking.getItemId()).getOwner() == userId)
+                    .map(booking -> BookingMapper.toBookingDtoResponse(booking, itemService, userService)).collect(Collectors.toList());
         }
         if (state.equals("WAITING")) {
-            return bookingRepository.findByOrderByIdDesc().stream().
-                    filter(booking -> itemService.getItem(userId, booking.getItemId()).getOwner() == userId &&
-                            booking.getStatus() == Status.WAITING).
-                    map(booking -> BookingMapper.toBookingDtoResponse(booking, itemService, userService)).collect(Collectors.toList());
+            return bookingRepository.findByOrderByIdDesc().stream()
+                    .filter(booking -> itemService.getItem(userId, booking.getItemId()).getOwner() == userId &&
+                            booking.getStatus() == Status.WAITING)
+                    .map(booking -> BookingMapper.toBookingDtoResponse(booking, itemService, userService)).collect(Collectors.toList());
         }
         if (state.equals("REJECTED")) {
-            return bookingRepository.findByOrderByIdDesc().stream().
-                    filter(booking -> itemService.getItem(userId, booking.getItemId()).getOwner() == userId &&
-                            booking.getStatus() == Status.REJECTED).
-                    map(booking -> BookingMapper.toBookingDtoResponse(booking, itemService, userService)).collect(Collectors.toList());
+            return bookingRepository.findByOrderByIdDesc().stream()
+                    .filter(booking -> itemService.getItem(userId, booking.getItemId()).getOwner() == userId &&
+                            booking.getStatus() == Status.REJECTED)
+                    .map(booking -> BookingMapper.toBookingDtoResponse(booking, itemService, userService)).collect(Collectors.toList());
         }
         if (state.equals("CURRENT")) {
             LocalDateTime date = LocalDateTime.now();
-            return bookingRepository.findByStartBeforeAndEndingAfterOrderByIdDesc(date, date).stream().
-                    filter(booking -> itemService.getItem(userId, booking.getItemId()).getOwner() == userId).
-                    map(booking -> BookingMapper.toBookingDtoResponse(booking, itemService, userService)).collect(Collectors.toList());
+            return bookingRepository.findByStartBeforeAndEndingAfterOrderByIdDesc(date, date).stream()
+                    .filter(booking -> itemService.getItem(userId, booking.getItemId()).getOwner() == userId)
+                    .map(booking -> BookingMapper.toBookingDtoResponse(booking, itemService, userService)).collect(Collectors.toList());
         }
         if (state.equals("PAST")) {
             LocalDateTime date = LocalDateTime.now();
-            return bookingRepository.findByEndingBeforeOrderByIdDesc(date).stream().
-                    filter(booking -> itemService.getItem(userId, booking.getItemId()).getOwner() == userId).
-                    map(booking -> BookingMapper.toBookingDtoResponse(booking, itemService, userService)).collect(Collectors.toList());
+            return bookingRepository.findByEndingBeforeOrderByIdDesc(date).stream()
+                    .filter(booking -> itemService.getItem(userId, booking.getItemId()).getOwner() == userId)
+                    .map(booking -> BookingMapper.toBookingDtoResponse(booking, itemService, userService)).collect(Collectors.toList());
         }
 
         throw new StatusErrorException("Unknown state: UNSUPPORTED_STATUS");

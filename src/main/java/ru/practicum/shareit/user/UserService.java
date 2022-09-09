@@ -40,8 +40,7 @@ public class UserService {
         if (user.isPresent()) {
             log.info("getting user: ok");
             return UserMapper.toUserDto(user.get());
-        }
-        else {
+        } else {
             throw new IdException("no user with such id");
         }
     }
