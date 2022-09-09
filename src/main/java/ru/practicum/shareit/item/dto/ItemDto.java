@@ -2,8 +2,11 @@ package ru.practicum.shareit.item.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import ru.practicum.shareit.item.model.Comment;
 
 import javax.validation.constraints.NotBlank;
+import java.util.ArrayList;
+import java.util.List;
 
 @AllArgsConstructor
 @Data
@@ -16,4 +19,9 @@ public class ItemDto  {
     private Boolean available;
     private int owner;
     private String request;
+    private List<CommentDto> comments = new ArrayList<>();
+
+    public ItemDto() {}
+
+
 }
