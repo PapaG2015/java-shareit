@@ -76,7 +76,8 @@ public class ItemService {
 
             List<CommentDto> comments = commentBD.stream().map(comment -> {
                 String authorName = userService.getUser(comment.getAuthorId()).getName();
-                return CommentMapper.toCommentDto(comment, authorName);}).collect(Collectors.toList());
+                return CommentMapper.toCommentDto(comment, authorName);
+            }).collect(Collectors.toList());
 
             if (item.get().getOwner() != userId) return ItemOwnerMapper.toItemDto(item.get(), null, null, comments);
             else {
@@ -121,8 +122,8 @@ public class ItemService {
     public CommentDto addComment(int userId, int itemId, CommentDto commentDto) {
         //List<Booking> b = bookingRepository.findByBookerIdAndItemIdAndStatus(userId, itemId, Status.APPROVED);
         if (bookingRepository.findByBookerIdAndItemIdAndStatusAndEndingBefore(userId, itemId, Status.APPROVED, LocalDateTime.now()).isEmpty())
-        throw new BookingException("you didn't book this item");
-        else{
+            throw new BookingException("you didn't book this item");
+        else {
             commentDto.setItem(itemId);
             commentDto.setCreated(LocalDateTime.now());
             Comment comment = commentRepository.save(CommentMapper.toComment(commentDto, userId));

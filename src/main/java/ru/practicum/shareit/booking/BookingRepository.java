@@ -13,7 +13,7 @@ public interface BookingRepository extends JpaRepository<Booking, Integer> {
 
     List<Booking> findByAndStartIsAfterOrderByIdDesc(LocalDateTime end);
 
-    List<Booking> findByBookerIdAndStartIsAfterOrderByIdDesc (int bookerId, LocalDateTime end);
+    List<Booking> findByBookerIdAndStartIsAfterOrderByIdDesc(int bookerId, LocalDateTime end);
 
     /*@Query("SELECT b " +
             "FROM Booking b " +

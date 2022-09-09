@@ -13,7 +13,9 @@ public class ItemOwnerDto extends ItemDto {
     private Booking lastBooking;
     private Booking nextBooking;
 
-    public ItemOwnerDto() {super();}
+    public ItemOwnerDto() {
+        super();
+    }
 
     public ItemOwnerDto(int id, @NotBlank String name, @NotBlank String description, Boolean available, int owner, String request, List<CommentDto> comment, Booking lastBooking, Booking nextBooking) {
         super(id, name, description, available, owner, request, comment);

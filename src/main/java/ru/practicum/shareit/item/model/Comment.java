@@ -22,7 +22,8 @@ public class Comment {
     private int authorId;
     private LocalDateTime created;
 
-    public Comment() {}
+    public Comment() {
+    }
 }
 
 
