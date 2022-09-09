@@ -13,6 +13,6 @@ public class BookingDtoRequest {
     private LocalDateTime start;
     private LocalDateTime end;
     private int itemId;
-    private int booker_id; //тот, кто бронирует
+    private int bookerId; //тот, кто бронирует
     private Status status;
 }

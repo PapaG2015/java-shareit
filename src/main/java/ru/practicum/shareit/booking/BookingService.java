@@ -42,7 +42,7 @@ public class BookingService {
         itemService.getItem(userId, bookingDtoRequest.getItemId());
         userService.getUser(userId);
 
-        bookingDtoRequest.setBooker_id(userId);
+        bookingDtoRequest.setBookerId(userId);
         Booking booking = bookingRepository.save(BookingMapper.toBooking(bookingDtoRequest));
         return BookingMapper.toBookingDtoResponse(booking, itemService, userService);
     }

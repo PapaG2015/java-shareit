@@ -9,7 +9,7 @@ import java.util.List;
 
 @AllArgsConstructor
 @Data
-public class ItemDto  {
+public class ItemDto {
     private int id;
     @NotBlank
     private String name;
@@ -20,7 +20,8 @@ public class ItemDto  {
     private String request;
     private List<CommentDto> comments = new ArrayList<>();
 
-    public ItemDto() {}
+    public ItemDto() {
+    }
 
 
 }
