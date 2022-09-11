@@ -1,5 +1,6 @@
 package ru.practicum.shareit.booking;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.practicum.shareit.booking.dto.BookingDtoRequest;
@@ -15,6 +16,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Slf4j
 @Service
 public class BookingService {
     @Autowired
@@ -44,6 +46,7 @@ public class BookingService {
 
         bookingDtoRequest.setBookerId(userId);
         Booking booking = bookingRepository.save(BookingMapper.toBooking(bookingDtoRequest));
+        log.info("adding new booking: ok");
         return BookingMapper.toBookingDtoResponse(booking, itemService, userService);
     }
 
@@ -60,11 +63,13 @@ public class BookingService {
             Booking bookingBD = bookingRepository.findById(bookingId).get();
             bookingBD.setStatus(Status.APPROVED);
             bookingRepository.save(bookingBD);
+            log.info("changing booking: ok");
             return BookingMapper.toBookingDtoResponse(bookingBD, itemService, userService);
         } else {
             Booking bookingBD = bookingRepository.findById(bookingId).get();
             bookingBD.setStatus(Status.REJECTED);
             bookingRepository.save(bookingBD);
+            log.info("changing booking: ok");
             return BookingMapper.toBookingDtoResponse(bookingBD, itemService, userService);
         }
     }
@@ -81,33 +86,40 @@ public class BookingService {
 
         if (bookingRepository.findById(bookingId).isPresent()) {
             Booking bookingBD = bookingRepository.findById(bookingId).get();
+            log.info("getting booking: ok");
             return BookingMapper.toBookingDtoResponse(bookingBD, itemService, userService);
         } else throw new IdException("no item with such id");
     }
 
     public List<BookingDtoResponse> getAllBooking(int userId, String state) {
         if (state.equals("ALL")) {
+            log.info("getting ALL bookings: ok");
             return bookingRepository.findByBookerIdOrderByIdDesc(userId).stream()
                     .map(booking -> BookingMapper.toBookingDtoResponse(booking, itemService, userService)).collect(Collectors.toList());
         }
         if (state.equals("FUTURE")) {
+            log.info("getting FUTURE bookings: ok");
             return bookingRepository.findByBookerIdAndStartIsAfterOrderByIdDesc(userId, LocalDateTime.now()).stream()
                     .map(booking -> BookingMapper.toBookingDtoResponse(booking, itemService, userService)).collect(Collectors.toList());
         }
         if (state.equals("WAITING")) {
+            log.info("getting WAITING bookings: ok");
             return bookingRepository.findByBookerIdAndStatusOrderByIdDesc(userId, Status.WAITING).stream()
                     .map(booking -> BookingMapper.toBookingDtoResponse(booking, itemService, userService)).collect(Collectors.toList());
         }
         if (state.equals("REJECTED")) {
+            log.info("getting REJECTED bookings: ok");
             return bookingRepository.findByBookerIdAndStatusOrderByIdDesc(userId, Status.REJECTED).stream()
                     .map(booking -> BookingMapper.toBookingDtoResponse(booking, itemService, userService)).collect(Collectors.toList());
         }
         if (state.equals("CURRENT")) {
+            log.info("getting CURRENT bookings: ok");
             LocalDateTime date = LocalDateTime.now();
             return bookingRepository.findByBookerIdAndStartBeforeAndEndingAfterOrderByIdDesc(userId, date, date).stream()
                     .map(booking -> BookingMapper.toBookingDtoResponse(booking, itemService, userService)).collect(Collectors.toList());
         }
         if (state.equals("PAST")) {
+            log.info("getting PAST bookings: ok");
             LocalDateTime date = LocalDateTime.now();
             return bookingRepository.findByBookerIdAndEndingBeforeOrderByIdDesc(userId, date).stream()
                     .map(booking -> BookingMapper.toBookingDtoResponse(booking, itemService, userService)).collect(Collectors.toList());
@@ -120,34 +132,40 @@ public class BookingService {
         userService.getUser(userId);
 
         if (state.equals("ALL")) {
+            log.info("getting ALL bookings of owner: ok");
             return bookingRepository.findByOrderByIdDesc().stream()
                     .filter(booking -> itemService.getItem(userId, booking.getItemId()).getOwner() == userId)
                     .map(booking -> BookingMapper.toBookingDtoResponse(booking, itemService, userService)).collect(Collectors.toList());
         }
         if (state.equals("FUTURE")) {
+            log.info("getting FUTURE bookings of owner: ok");
             return bookingRepository.findByAndStartIsAfterOrderByIdDesc(LocalDateTime.now()).stream()
                     .filter(booking -> itemService.getItem(userId, booking.getItemId()).getOwner() == userId)
                     .map(booking -> BookingMapper.toBookingDtoResponse(booking, itemService, userService)).collect(Collectors.toList());
         }
         if (state.equals("WAITING")) {
+            log.info("getting WAITING bookings of owner: ok");
             return bookingRepository.findByOrderByIdDesc().stream()
                     .filter(booking -> itemService.getItem(userId, booking.getItemId()).getOwner() == userId &&
                             booking.getStatus() == Status.WAITING)
                     .map(booking -> BookingMapper.toBookingDtoResponse(booking, itemService, userService)).collect(Collectors.toList());
         }
         if (state.equals("REJECTED")) {
+            log.info("getting REJECTED bookings of owner: ok");
             return bookingRepository.findByOrderByIdDesc().stream()
                     .filter(booking -> itemService.getItem(userId, booking.getItemId()).getOwner() == userId &&
                             booking.getStatus() == Status.REJECTED)
                     .map(booking -> BookingMapper.toBookingDtoResponse(booking, itemService, userService)).collect(Collectors.toList());
         }
         if (state.equals("CURRENT")) {
+            log.info("getting CURRENT bookings of owner: ok");
             LocalDateTime date = LocalDateTime.now();
             return bookingRepository.findByStartBeforeAndEndingAfterOrderByIdDesc(date, date).stream()
                     .filter(booking -> itemService.getItem(userId, booking.getItemId()).getOwner() == userId)
                     .map(booking -> BookingMapper.toBookingDtoResponse(booking, itemService, userService)).collect(Collectors.toList());
         }
         if (state.equals("PAST")) {
+            log.info("getting PAST bookings of owner: ok");
             LocalDateTime date = LocalDateTime.now();
             return bookingRepository.findByEndingBeforeOrderByIdDesc(date).stream()
                     .filter(booking -> itemService.getItem(userId, booking.getItemId()).getOwner() == userId)

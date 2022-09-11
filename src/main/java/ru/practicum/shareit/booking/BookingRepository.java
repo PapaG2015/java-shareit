@@ -15,15 +15,10 @@ public interface BookingRepository extends JpaRepository<Booking, Integer> {
 
     List<Booking> findByBookerIdAndStartIsAfterOrderByIdDesc(int bookerId, LocalDateTime end);
 
-    /*@Query("SELECT b " +
-            "FROM Booking b " +
-            "WHERE b.itemId = ?1")*/
     List<Booking> findByBookerIdAndStatusOrderByIdDesc(int userId, Status s);
 
     List<Booking> findTop2ByItemIdOrderByIdAsc(int itemId);
 
-    //List<Booking> findByBookerIdAndItemIdAndStatusAndEndingBefore(int userId, int itemId, Status s, LocalDateTime end);
-    //List<Booking> findByBookerIdAndItemIdAndStatus(int userId, int itemId, Status s);
     List<Booking> findByBookerIdAndItemIdAndStatusAndEndingBefore(int userId, int itemId, Status s, LocalDateTime end);
 
     List<Booking> findByBookerIdAndStartBeforeAndEndingAfterOrderByIdDesc(int userId, LocalDateTime date1, LocalDateTime date2);

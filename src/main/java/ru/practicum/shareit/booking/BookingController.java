@@ -1,5 +1,6 @@
 package ru.practicum.shareit.booking;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -11,6 +12,7 @@ import ru.practicum.shareit.exception.StatusErrorException;
 
 import java.util.List;
 
+@Slf4j
 @RestController
 @RequestMapping(path = "/bookings")
 public class BookingController {
@@ -49,6 +51,7 @@ public class BookingController {
     @ExceptionHandler
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public String handleStatusException(BookingException e) {
+        log.error(e.getMessage());
         return e.getMessage();
     }
 
@@ -56,12 +59,14 @@ public class BookingController {
     @ExceptionHandler
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public String handleIdException(IdException e) {
+        log.error(e.getMessage());
         return e.getMessage();
     }
 
     @ExceptionHandler
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ErrorResponse handleStatusErrorException(StatusErrorException e) {
+        log.error(e.getMessage());
         return new ErrorResponse(e.getMessage());
     }
 }
