@@ -67,6 +67,26 @@ class ShareItTests {
         Assertions.assertEquals(b, false);
     }
 
+    @Test
+    void testGetUser() {
+        UserService userService = new UserService();
+        userService.setUserRepository(mockUserRepository);
+
+        UserDto userDto = new UserDto(1, "marat", "m@yandex.ru");
+        User user = UserMapper.toUser(userDto);
+
+        Mockito
+                .when(mockUserRepository.findById(Mockito.anyInt()))
+                .thenAnswer(invocationOnMock -> {
+                    int i = invocationOnMock.getArgument(0, Integer.class);
+                    if (i < 0) return Optional.empty();
+                    else return Optional.of(user);
+                });
+
+        UserDto userDtoTest = userService.getUser(3);
+        Assertions.assertEquals(userDto, userDtoTest);
+    }
+
 	/*@Test
 	void testAddBooking() {
 		BookingDtoRequest bookingDtoRequest = new BookingDtoRequest(1, LocalDateTime.now(),
