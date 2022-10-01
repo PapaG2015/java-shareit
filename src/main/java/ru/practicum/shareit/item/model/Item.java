@@ -19,7 +19,8 @@ public class Item {
     @NonNull
     private Boolean available;
     private int owner;
-    private String request;
+    @Column(name = "request_id")
+    private Integer requestId;
 
     //@ElementCollection
     //@OneToMany

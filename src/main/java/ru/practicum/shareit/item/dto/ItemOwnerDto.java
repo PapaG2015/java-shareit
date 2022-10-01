@@ -17,7 +17,7 @@ public class ItemOwnerDto extends ItemDto {
         super();
     }
 
-    public ItemOwnerDto(int id, @NotBlank String name, @NotBlank String description, Boolean available, int owner, String request, List<CommentDto> comment, Booking lastBooking, Booking nextBooking) {
+    public ItemOwnerDto(int id, @NotBlank String name, @NotBlank String description, Boolean available, int owner, Integer request, List<CommentDto> comment, Booking lastBooking, Booking nextBooking) {
         super(id, name, description, available, owner, request, comment);
         this.lastBooking = lastBooking;
         this.nextBooking = nextBooking;

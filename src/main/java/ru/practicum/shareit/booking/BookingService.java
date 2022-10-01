@@ -2,15 +2,18 @@ package ru.practicum.shareit.booking;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import ru.practicum.shareit.booking.dto.BookingDtoRequest;
 import ru.practicum.shareit.booking.dto.BookingDtoResponse;
 import ru.practicum.shareit.booking.model.Booking;
 import ru.practicum.shareit.exception.BookingException;
 import ru.practicum.shareit.exception.IdException;
+import ru.practicum.shareit.exception.ParamException;
 import ru.practicum.shareit.exception.StatusErrorException;
 import ru.practicum.shareit.item.ItemService;
 import ru.practicum.shareit.user.UserService;
+import org.springframework.data.domain.PageRequest;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -91,11 +94,23 @@ public class BookingService {
         } else throw new IdException("no item with such id");
     }
 
-    public List<BookingDtoResponse> getAllBooking(int userId, String state) {
+    public List<BookingDtoResponse> getAllBooking(int userId, String state, Integer from, Integer size) {
         if (state.equals("ALL")) {
-            log.info("getting ALL bookings: ok");
-            return bookingRepository.findByBookerIdOrderByIdDesc(userId).stream()
-                    .map(booking -> BookingMapper.toBookingDtoResponse(booking, itemService, userService)).collect(Collectors.toList());
+            if (from == null || size == null) {
+                log.info("getting ALL bookings: ok");
+                return bookingRepository.findByBookerIdOrderByIdDesc(userId).stream()
+                        .map(booking -> BookingMapper.toBookingDtoResponse(booking, itemService, userService))
+                        .collect(Collectors.toList());
+            }
+            if (size <= 0 || from < 0) {
+                throw new ParamException("size can't be <=0 or from < 0");
+            }
+
+            Pageable pageable = PageRequest.of(from/size, size);
+            log.info("getting all bookings with paging: ok");
+            return bookingRepository.findByBookerIdOrderByIdDesc(userId, pageable).stream()
+                    .map(booking -> BookingMapper.toBookingDtoResponse(booking, itemService, userService))
+                    .collect(Collectors.toList());
         }
         if (state.equals("FUTURE")) {
             log.info("getting FUTURE bookings: ok");
@@ -128,14 +143,26 @@ public class BookingService {
         throw new StatusErrorException("Unknown state: UNSUPPORTED_STATUS");
     }
 
-    public List<BookingDtoResponse> getAllBookingOwner(int userId, String state) {
+    public List<BookingDtoResponse> getAllBookingOwner(int userId, String state, Integer from, Integer size) {
         userService.getUser(userId);
 
         if (state.equals("ALL")) {
-            log.info("getting ALL bookings of owner: ok");
+            if (from == null || size == null) {
+                log.info("getting ALL bookings of owner: ok");
+                return bookingRepository.findByOrderByIdDesc().stream()
+                        .filter(booking -> itemService.getItem(userId, booking.getItemId()).getOwner() == userId)
+                        .map(booking -> BookingMapper.toBookingDtoResponse(booking, itemService, userService)).collect(Collectors.toList());
+            }
+            if (size <= 0 || from < 0) {
+                throw new ParamException("size can't be <=0 or from < 0");
+            }
+
+            log.info("getting ALL bookings of owner with paging: ok");
             return bookingRepository.findByOrderByIdDesc().stream()
                     .filter(booking -> itemService.getItem(userId, booking.getItemId()).getOwner() == userId)
-                    .map(booking -> BookingMapper.toBookingDtoResponse(booking, itemService, userService)).collect(Collectors.toList());
+                    .map(booking -> BookingMapper.toBookingDtoResponse(booking, itemService, userService))
+                    .skip(from).limit(size)
+                    .collect(Collectors.toList());
         }
         if (state.equals("FUTURE")) {
             log.info("getting FUTURE bookings of owner: ok");

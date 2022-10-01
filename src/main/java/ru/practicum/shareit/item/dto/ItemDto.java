@@ -17,7 +17,7 @@ public class ItemDto {
     private String description;
     private Boolean available;
     private int owner;
-    private String request;
+    private Integer requestId;
     private List<CommentDto> comments = new ArrayList<>();
 
     public ItemDto() {

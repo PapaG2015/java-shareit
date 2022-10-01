@@ -8,6 +8,7 @@ import ru.practicum.shareit.booking.dto.BookingDtoRequest;
 import ru.practicum.shareit.booking.dto.BookingDtoResponse;
 import ru.practicum.shareit.exception.BookingException;
 import ru.practicum.shareit.exception.IdException;
+import ru.practicum.shareit.exception.ParamException;
 import ru.practicum.shareit.exception.StatusErrorException;
 
 import java.util.List;
@@ -38,13 +39,19 @@ public class BookingController {
     }
 
     @GetMapping ///bookings?state={state}
-    public List<BookingDtoResponse> getAllBooking(@RequestHeader("X-Sharer-User-Id") int userId, @RequestParam(required = false, defaultValue = "ALL") String state) {
-        return bookingService.getAllBooking(userId, state);
+    public List<BookingDtoResponse> getAllBooking(@RequestHeader("X-Sharer-User-Id") int userId,
+                                                  @RequestParam(required = false, defaultValue = "ALL") String state,
+                                                  @RequestParam(required = false) Integer from,
+                                                  @RequestParam(required = false) Integer size) {
+        return bookingService.getAllBooking(userId, state, from, size);
     }
 
     @GetMapping("/owner")
-    public List<BookingDtoResponse> getAllBookingOwner(@RequestHeader("X-Sharer-User-Id") int userId, @RequestParam(required = false, defaultValue = "ALL") String state) {
-        return bookingService.getAllBookingOwner(userId, state);
+    public List<BookingDtoResponse> getAllBookingOwner(@RequestHeader("X-Sharer-User-Id") int userId,
+                                                       @RequestParam(required = false, defaultValue = "ALL") String state,
+                                                       @RequestParam(required = false) Integer from,
+                                                       @RequestParam(required = false) Integer size) {
+        return bookingService.getAllBookingOwner(userId, state, from, size);
     }
 
 
@@ -68,5 +75,12 @@ public class BookingController {
     public ErrorResponse handleStatusErrorException(StatusErrorException e) {
         log.error(e.getMessage());
         return new ErrorResponse(e.getMessage());
+    }
+
+    @ExceptionHandler
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public String handleParamException(ParamException e) {
+        log.error(e.getMessage());
+        return e.getMessage();
     }
 }

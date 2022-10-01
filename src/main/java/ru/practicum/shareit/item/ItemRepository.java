@@ -3,11 +3,14 @@ package ru.practicum.shareit.item;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import ru.practicum.shareit.item.model.Item;
+import ru.practicum.shareit.requests.ItemShort;
 
 import java.util.List;
 
 public interface ItemRepository extends JpaRepository<Item, Integer> {
     List<Item> findByOwnerOrderByIdAsc(int userId);
+
+    List<ItemShort> findByRequestId(int requestId);
 
     @Query("SELECT i " +
             "FROM Item i " +

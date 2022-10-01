@@ -1,5 +1,7 @@
 package ru.practicum.shareit.booking;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import ru.practicum.shareit.booking.model.Booking;
 
@@ -9,7 +11,11 @@ import java.util.List;
 public interface BookingRepository extends JpaRepository<Booking, Integer> {
     List<Booking> findByBookerIdOrderByIdDesc(int userId);
 
+    Page<Booking> findByBookerIdOrderByIdDesc(int userId, Pageable pageable);
+
     List<Booking> findByOrderByIdDesc();
+
+    Page<Booking> findByOrderByIdDesc(Pageable pageable);
 
     List<Booking> findByAndStartIsAfterOrderByIdDesc(LocalDateTime end);
 
