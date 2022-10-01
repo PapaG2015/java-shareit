@@ -8,6 +8,6 @@ public interface ItemShort {
     String getDescription();
 
     Integer getrequestId();
-    
+
     Boolean getAvailable();
 }

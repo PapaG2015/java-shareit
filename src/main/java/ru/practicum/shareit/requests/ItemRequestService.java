@@ -72,7 +72,7 @@ public class ItemRequestService {
             throw new ParamException("size can't be <=0 or from < 0");
         }
 
-        Pageable pageable = PageRequest.of(from/size, size);
+        Pageable pageable = PageRequest.of(from / size, size);
         Page<ItemRequest> itemRequests = itemRequestRepository
                 .findByRequestorNot(userId, pageable);
         List<ItemRequestDto> itemRequestsDto = itemRequests.stream()
@@ -94,8 +94,7 @@ public class ItemRequestService {
 
         if (itemRequestRepository.findById(requestId).isEmpty()) {
             throw new IdException("no item request with such id");
-        }
-        else {
+        } else {
             ItemRequest itemRequest = itemRequestRepository.findById(requestId).get();
             ItemRequestDto itemRequestDto = ItemRequestMapper.toItemRequestDto(itemRequest);
             List<ItemShort> items = itemRepository.findByRequestId(itemRequestDto.getId());
