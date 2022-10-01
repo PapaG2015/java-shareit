@@ -3,12 +3,10 @@ package ru.practicum.shareit.requests.dto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.beans.factory.annotation.Value;
 import ru.practicum.shareit.requests.ItemShort;
 
 import javax.validation.constraints.NotBlank;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
 @AllArgsConstructor
@@ -30,5 +28,6 @@ public class ItemRequestDto {
         this.created = created;
     }
 
-    public ItemRequestDto() {}
+    public ItemRequestDto() {
+    }
 }

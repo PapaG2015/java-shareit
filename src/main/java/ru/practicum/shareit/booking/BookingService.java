@@ -106,7 +106,7 @@ public class BookingService {
                 throw new ParamException("size can't be <=0 or from < 0");
             }
 
-            Pageable pageable = PageRequest.of(from/size, size);
+            Pageable pageable = PageRequest.of(from / size, size);
             log.info("getting all bookings with paging: ok");
             return bookingRepository.findByBookerIdOrderByIdDesc(userId, pageable).stream()
                     .map(booking -> BookingMapper.toBookingDtoResponse(booking, itemService, userService))
