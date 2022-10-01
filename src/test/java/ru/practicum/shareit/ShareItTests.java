@@ -65,7 +65,7 @@ class ShareItTests {
 
         Boolean b = userService.checkId(-3);
         Assertions.assertEquals(b, false);
-        }
+    }
 
 	/*@Test
 	void testAddBooking() {
@@ -88,8 +88,8 @@ class ShareItTests {
 	}*/
 
 
-        @Test
-        void contextLoads () {
-        }
-
+    @Test
+    void contextLoads() {
     }
+
+}
