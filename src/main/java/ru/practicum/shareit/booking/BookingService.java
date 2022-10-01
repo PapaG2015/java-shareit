@@ -1,5 +1,6 @@
 package ru.practicum.shareit.booking;
 
+import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
@@ -21,6 +22,7 @@ import java.util.stream.Collectors;
 
 @Slf4j
 @Service
+@Setter
 public class BookingService {
     @Autowired
     private BookingRepository bookingRepository;
