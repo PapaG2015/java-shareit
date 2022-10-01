@@ -13,39 +13,59 @@ import ru.practicum.shareit.user.UserService;
 import ru.practicum.shareit.user.dto.UserDto;
 import ru.practicum.shareit.user.model.User;
 
+import java.util.Optional;
+
 @SpringBootTest
 class ShareItTests {
 
-	@Mock
-	BookingRepository mockBookingRepository;
+    @Mock
+    BookingRepository mockBookingRepository;
 
-	@Mock
-	private ItemService mockItemService;
+    @Mock
+    private ItemService mockItemService;
 
-	@Mock
-	private UserService mockUserService;
+    @Mock
+    private UserService mockUserService;
 
-	@Mock
-	private UserRepository mockUserRepository;
+    @Mock
+    private UserRepository mockUserRepository;
 
-	@Test
-	void testAddUser() {
-		UserService userService = new UserService();
-		userService.setUserRepository(mockUserRepository);
+    @Test
+    void testAddUser() {
+        UserService userService = new UserService();
+        userService.setUserRepository(mockUserRepository);
 
-		UserDto userDto = new UserDto(1, "marat", "m@yandex.ru");
-		User user = UserMapper.toUser(userDto);
+        UserDto userDto = new UserDto(1, "marat", "m@yandex.ru");
+        User user = UserMapper.toUser(userDto);
 
-		Mockito
-				.when(mockUserRepository.save(user))
-				.thenReturn(user);
+        Mockito
+                .when(mockUserRepository.save(Mockito.any(User.class)))
+                .thenAnswer(invocationOnMock -> invocationOnMock.getArgument(0, User.class));
 
-		UserDto userDtoTest = userService.addUser(userDto);
+        UserDto userDtoTest = userService.addUser(userDto);
 
-		Assertions.assertEquals(userDtoTest.getId(), userDtoTest.getId());
+        Assertions.assertEquals(userDto.getId(), userDtoTest.getId());
+    }
 
+    @Test
+    void testCheckId() {
+        UserService userService = new UserService();
+        userService.setUserRepository(mockUserRepository);
 
-	}
+        UserDto userDto = new UserDto(1, "marat", "m@yandex.ru");
+        User user = UserMapper.toUser(userDto);
+
+        Mockito
+                .when(mockUserRepository.findById(Mockito.anyInt()))
+                .thenAnswer(invocationOnMock -> {
+                    int i = invocationOnMock.getArgument(0, Integer.class);
+                    if (i < 0) return Optional.empty();
+                    else return Optional.of(user);
+                });
+
+        Boolean b = userService.checkId(-3);
+        Assertions.assertEquals(b, false);
+        }
 
 	/*@Test
 	void testAddBooking() {
@@ -68,9 +88,8 @@ class ShareItTests {
 	}*/
 
 
+        @Test
+        void contextLoads () {
+        }
 
-	@Test
-	void contextLoads() {
-	}
-
-}
+    }
