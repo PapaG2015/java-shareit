@@ -87,25 +87,29 @@ class ShareItTests {
         Assertions.assertEquals(userDto, userDtoTest);
     }
 
-	/*@Test
-	void testAddBooking() {
-		BookingDtoRequest bookingDtoRequest = new BookingDtoRequest(1, LocalDateTime.now(),
-				LocalDateTime.now(), 1, 1, Status.REJECTED);
+    @Test
+    void testChangeUser() {
+        UserService userService = new UserService();
+        userService.setUserRepository(mockUserRepository);
 
-		ItemOwnerDto itemOwnerDto = new ItemOwnerDto();
-		itemOwnerDto.setOwner(1);
+        UserDto userDto = new UserDto(1, "marat", "m@yandex.ru");
+        User user = UserMapper.toUser(userDto);
 
-		BookingService bookingService = new BookingService();
-		bookingService.setBookingRepository(mockBookingRepository);
-		bookingService.setItemService(mockItemService);
-		bookingService.setUserService(mockUserService);
+        Mockito
+                .when(mockUserRepository.findById(Mockito.anyInt()))
+                .thenAnswer(invocationOnMock -> {
+                    int i = invocationOnMock.getArgument(0, Integer.class);
+                    if (i < 0) return Optional.empty();
+                    else return Optional.of(user);
+                });
 
-		Mockito
-				.when(mockItemService.getItem(Mockito.anyInt(), Mockito.anyInt()))
-				.thenReturn(itemOwnerDto);
+        Mockito
+                .when(mockUserRepository.save(Mockito.any(User.class)))
+                .thenAnswer(invocationOnMock -> invocationOnMock.getArgument(0, User.class));
 
-		bookingService.addBooking(1, bookingDtoRequest);
-	}*/
+        UserDto userDtoTest = userService.changeUser(3, userDto);
+        Assertions.assertEquals(userDto, userDtoTest);
+    }
 
 
     @Test
