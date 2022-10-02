@@ -1,9 +1,11 @@
 package ru.practicum.shareit;
 
+import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import ru.practicum.shareit.booking.BookingRepository;
 import ru.practicum.shareit.item.ItemService;
@@ -15,7 +17,10 @@ import ru.practicum.shareit.user.model.User;
 
 import java.util.Optional;
 
-@SpringBootTest
+@SpringBootTest(
+        properties = "db.name=test",
+        webEnvironment = SpringBootTest.WebEnvironment.NONE)
+@RequiredArgsConstructor(onConstructor_ = @Autowired)
 class ShareItTests {
 
     @Mock
@@ -116,4 +121,8 @@ class ShareItTests {
     void contextLoads() {
     }
 
+    @Test
+    void testAddUserDB() {
+
+    }
 }
