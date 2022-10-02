@@ -16,7 +16,7 @@ import java.util.List;
 
 @Transactional
 @SpringBootTest(
-        properties = "db.name=test",
+        properties = "db.name=testItemService",
         webEnvironment = SpringBootTest.WebEnvironment.NONE)
 @RequiredArgsConstructor(onConstructor_ = @Autowired)
 public class ItemServiceTest {
