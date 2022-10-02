@@ -8,13 +8,11 @@ import org.springframework.boot.test.context.SpringBootTest;
 import ru.practicum.shareit.item.ItemService;
 import ru.practicum.shareit.item.dto.ItemDto;
 import ru.practicum.shareit.requests.ItemRequestService;
-import ru.practicum.shareit.requests.ItemShort;
 import ru.practicum.shareit.requests.dto.ItemRequestDto;
 import ru.practicum.shareit.user.UserService;
 import ru.practicum.shareit.user.dto.UserDto;
 
 import javax.transaction.Transactional;
-import javax.validation.constraints.NotBlank;
 import java.time.LocalDateTime;
 import java.util.List;
 
