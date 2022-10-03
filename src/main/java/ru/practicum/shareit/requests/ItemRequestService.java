@@ -48,7 +48,7 @@ public class ItemRequestService {
             List<ItemRequest> itemRequests = itemRequestRepository.findByRequestor(userId);
             List<ItemRequestDto> itemRequestsDto = itemRequests.stream()
                     .map(ItemRequestMapper::toItemRequestDto).collect(Collectors.toList());
-            itemRequestsDto.stream()
+            itemRequestsDto
                     .forEach(itemRequestDto -> {
                         List<ItemShort> items = itemRepository.findByRequestId(itemRequestDto.getId());
                         itemRequestDto.setItems(items);
@@ -78,7 +78,7 @@ public class ItemRequestService {
         List<ItemRequestDto> itemRequestsDto = itemRequests.stream()
                 .map(ItemRequestMapper::toItemRequestDto).collect(Collectors.toList());
 
-        itemRequestsDto.stream()
+        itemRequestsDto
                 .forEach(itemRequestDto -> {
                     List<ItemShort> items = itemRepository.findByRequestId(itemRequestDto.getId());
                     itemRequestDto.setItems(items);
