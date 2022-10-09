@@ -10,7 +10,6 @@ import ru.practicum.shareit.exception.IdException;
 import ru.practicum.shareit.user.dto.UserRequestDto;
 
 import javax.validation.Valid;
-import java.util.List;
 
 @Slf4j
 @RestController
