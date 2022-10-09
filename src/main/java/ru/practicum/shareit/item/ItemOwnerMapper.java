@@ -15,7 +15,7 @@ public class ItemOwnerMapper {
                 item.getDescription(),
                 item.getAvailable(),
                 item.getOwner(),
-                item.getRequest(),
+                item.getRequestId(),
                 comments,
                 lastBooking,
                 nextBooking);
