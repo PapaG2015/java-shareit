@@ -14,13 +14,10 @@ import ru.practicum.shareit.exception.IdException;
 import ru.practicum.shareit.exception.ParamException;
 import ru.practicum.shareit.exception.StatusErrorException;
 import ru.practicum.shareit.item.ItemService;
-import ru.practicum.shareit.user.UserMapper;
 import ru.practicum.shareit.user.UserService;
-import ru.practicum.shareit.user.model.User;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Slf4j
