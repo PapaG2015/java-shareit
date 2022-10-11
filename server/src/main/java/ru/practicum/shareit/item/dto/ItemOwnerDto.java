@@ -22,12 +22,4 @@ public class ItemOwnerDto extends ItemDto {
         this.lastBooking = lastBooking;
         this.nextBooking = nextBooking;
     }
-
-
-
-    /*public ItemOwnerDto(int id, @NotBlank String name, @NotBlank String description, Boolean available, int owner, String request, Booking lastBooking, Booking nextBooking) {
-        super(id, name, description, available, owner, request);
-        this.lastBooking = lastBooking;
-        this.nextBooking = nextBooking;
-    }*/
 }

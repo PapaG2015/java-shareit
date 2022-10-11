@@ -18,7 +18,6 @@ public class ItemRequestDto {
     private String description;
     private int requestor;
     private LocalDateTime created;
-    //@Value("null")
     List<ItemShort> items;
 
     public ItemRequestDto(int id, @NotBlank String description, int requestor, LocalDateTime created) {

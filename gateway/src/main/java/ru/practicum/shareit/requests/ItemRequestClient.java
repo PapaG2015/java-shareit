@@ -28,11 +28,6 @@ public class ItemRequestClient extends BaseClient {
     }
 
     public ResponseEntity<Object> getItemRequest(long userId) {
-        /*Map<String, Object> parameters = Map.of(
-                "state", state.name(),
-                "from", from,
-                "size", size
-        );*/
         return get(null, userId);
     }
 

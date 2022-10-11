@@ -58,7 +58,6 @@ public class BookingService {
     public BookingDtoResponse changeBooking(int userId, int bookingId, boolean approved) {
         if (userId != itemService.getItem(userId, bookingRepository.findById(bookingId).get().getItemId()).getOwner()) {
             throw new IdException("you can't see booking, if you are not owner or booker");
-            //userId != bookingRepository.findById(bookingId).get().getBookerId() &&
         }
 
         if (bookingRepository.findById(bookingId).get().getStatus() == Status.APPROVED)

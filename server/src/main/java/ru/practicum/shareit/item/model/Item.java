@@ -22,13 +22,6 @@ public class Item {
     @Column(name = "request_id")
     private Integer requestId;
 
-    //@ElementCollection
-    //@OneToMany
-    //@CollectionTable(name="comments", joinColumns=@JoinColumn(name="id"))
-    //@Column(name="name")
-
-    //private List<Comment> comment = new ArrayList<>();
-
     public Item() {
     }
 

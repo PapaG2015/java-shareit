@@ -26,11 +26,6 @@ public class UserClient extends BaseClient {
     }
 
     public ResponseEntity<Object> getUsers() {
-        /*Map<String, Object> parameters = Map.of(
-                "state", state.name(),
-                "from", from,
-                "size", size
-        );*/
         return get(null);
     }
 

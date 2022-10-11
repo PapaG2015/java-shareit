@@ -83,8 +83,6 @@ public class ItemService {
             else {
                 List<Booking> bookings = bookingRepository.findTop2ByItemIdOrderByIdAsc(itemId);
 
-                //List<Comment> comments = commentRepository.findByItemId(itemId);
-
                 if (bookings.isEmpty()) return ItemOwnerMapper.toItemDto(item.get(), null, null, comments);
 
                 if (bookings.size() != 2) return ItemOwnerMapper.toItemDto(item.get(), bookings.get(0), null, comments);
@@ -97,7 +95,6 @@ public class ItemService {
     public List<ItemOwnerDto> getItems(int userId) {
         List<Item> items = itemRepository.findByOwnerOrderByIdAsc(userId);
         log.info("getting items: ok");
-        //return items.stream().map(item -> ItemMapper.toItemDto(item)).collect(Collectors.toList());
 
         return items.stream().map(item -> {
             List<Booking> bookings = bookingRepository.findTop2ByItemIdOrderByIdAsc(item.getId());
@@ -120,7 +117,6 @@ public class ItemService {
     }
 
     public CommentDto addComment(int userId, int itemId, CommentDto commentDto) {
-        //List<Booking> b = bookingRepository.findByBookerIdAndItemIdAndStatus(userId, itemId, Status.APPROVED);
         if (bookingRepository.findByBookerIdAndItemIdAndStatusAndEndingBefore(userId, itemId, Status.APPROVED, LocalDateTime.now()).isEmpty())
             throw new BookingException("you didn't book this item");
         else {
